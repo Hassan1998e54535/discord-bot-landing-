@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Bot - الصفحة الرئيسية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'yellow': {
+                            '500': '#F59E0B',
+                            '400': '#FBBF24',
+                            '600': '#D97706'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .yellow-gradient {
+            background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+        
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(251, 191, 36, 0.1) 0%, transparent 50%);
+        }
+        
+        .stats-counter {
+            animation: countUp 2s ease-out forwards;
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(251, 191, 36, 0.2);
+        }
+        
+        .feature-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white antialiased">
+    <div class="min-h-screen bg-gray-900">
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-700">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                        <svg class="h-8 w-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8V4H8M20 14h2M2 14h2M15 13v2M9 13v2" />
+                            <rect width="16" height="12" x="4" y="8" rx="2" />
+                        </svg>
+                        <span class="text-xl font-bold text-white">DiscordBot Pro</span>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-6 rtl:space-x-reverse">
+                        <a href="#features" class="text-gray-300 hover:text-yellow-500 transition-colors">الميزات</a>
+                        <a href="#stats" class="text-gray-300 hover:text-yellow-500 transition-colors">الإحصائيات</a>
+                        <a href="#pricing" class="text-gray-300 hover:text-yellow-500 transition-colors">الأسعار</a>
+                        <button class="px-4 py-2 rounded-md yellow-gradient text-black font-medium hover:opacity-90 transition-opacity">
+                            إضافة للخادم
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="pt-16 pb-20 hero-pattern">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center pt-20 pb-16">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-yellow-500/10 border border-yellow-500/20 mb-8">
+                        <svg class="h-4 w-4 text-yellow-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>
+                        </svg>
+                        <span class="text-yellow-500 text-sm font-medium">البوت الأكثر تقدماً في ديسكورد</span>
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
+                        بوت ديسكورد 
+                        <span class="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+                            المتقدم
+                        </span>
+                    </h1>
+                    
+                    <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                        اجعل خادمك مميزاً مع أقوى بوت ديسكورد يوفر الحماية، الترفيه، والإدارة الذكية
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <button class="inline-flex items-center text-lg px-8 py-4 rounded-md yellow-gradient glow-effect text-black font-medium hover:opacity-90 transition-opacity">
+                            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8V4H8M20 14h2M2 14h2M15 13v2M9 13v2" />
+                                <rect width="16" height="12" x="4" y="8" rx="2" />
+                            </svg>
+                            إضافة للخادم الآن
+                        </button>
+                        <button class="inline-flex items-center text-lg px-8 py-4 rounded-md border-2 border-yellow-500 bg-transparent text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
+                            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                            تجربة مباشرة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="stats" class="py-16 bg-gray-800/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center stats-counter">
+                        <div class="text-4xl md:text-5xl font-bold text-yellow-500 mb-2" id="servers-count">
+                            15,420+
+                        </div>
+                        <div class="text-gray-300 text-lg">خادم نشط</div>
+                    </div>
+                    <div class="text-center stats-counter">
+                        <div class="text-4xl md:text-5xl font-bold text-yellow-500 mb-2" id="users-count">
+                            2,847,293+
+                        </div>
+                        <div class="text-gray-300 text-lg">مستخدم راضي</div>
+                    </div>
+                    <div class="text-center stats-counter">
+                        <div class="text-4xl md:text-5xl font-bold text-yellow-500 mb-2" id="commands-count">
+                            892,847+
+                        </div>
+                        <div class="text-gray-300 text-lg">أمر منفذ يومياً</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                        ميزات لا تقاوم
+                    </h2>
+                    <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                        اكتشف مجموعة شاملة من الأدوات والميزات التي تجعل خادمك الأفضل
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="feature-card rounded-lg border border-gray-700 bg-gray-800/50 text-gray-100 shadow-sm backdrop-blur-sm p-6">
+                        <div class="feature-icon w-12 h-12 rounded-lg bg-gradient-to-r from-red-500 to-orange-500 p-3 mb-4">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">الحماية المتقدمة</h3>
+                        <p class="text-gray-400">نظام حماية شامل ضد السبام والمحتوى المؤذي</p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="feature-card rounded-lg border border-gray-700 bg-gray-800/50 text-gray-100 shadow-sm backdrop-blur-sm p-6">
+                        <div class="feature-icon w-12 h-12 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 p-3 mb-4">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 18V5l12-2v13" />
+                                <circle cx="6" cy="18" r="3" />
+                                <circle cx="18" cy="16" r="3" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">مشغل الموسيقى</h3>
+                        <p class="text-gray-400">استمتع بالموسيقى عالية الجودة من مختلف المنصات</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="feature-card rounded-lg border border-gray-700 bg-gray-800/50 text-gray-100 shadow-sm backdrop-blur-sm p-6">
+                        <div class="feature-icon w-12 h-12 rounded-lg bg-gradient-to-r from-green-500 to-blue-500 p-3 mb-4">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">ألعاب تفاعلية</h3>
+                        <p class="text-gray-400">مجموعة متنوعة من الألعاب والمسابقات الممتعة</p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="feature-card rounded-lg border border-gray-700 bg-gray-800/50 text-gray-100 shadow-sm backdrop-blur-sm p-6">
+                        <div class="feature-icon w-12 h-12 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 p-3 mb-4">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">إعدادات مرنة</h3>
+                        <p class="text-gray-400">تخصيص كامل لجميع الوظائف حسب احتياجاتك</p>
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div class="feature-card rounded-lg border border-gray-700 bg-gray-800/50 text-gray-100 shadow-sm backdrop-blur-sm p-6">
+                        <div class="feature-icon w-12 h-12 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 p-3 mb-4">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">أداء سريع</h3>
+                        <p class="text-gray-400">استجابة فورية وأداء موثوق على مدار الساعة</p>
+                    </div>
+
+                    <!-- Feature 6 -->
+                    <div class="feature-card rounded-lg border border-gray-700 bg-gray-800/50 text-gray-100 shadow-sm backdrop-blur-sm p-6">
+                        <div class="feature-icon w-12 h-12 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-600 p-3 mb-4">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">VIP المميز</h3>
+                        <p class="text-gray-400">ميزات حصرية ودعم أولوية للمستخدمين المميزين</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 gradient-bg">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                    جاهز لتجربة الفرق؟
+                </h2>
+                <p class="text-xl text-gray-300 mb-8">
+                    انضم إلى آلاف الخوادم التي تثق في بوتنا لإدارة مجتمعاتها
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="text-lg px-8 py-4 rounded-md yellow-gradient glow-effect text-black font-medium hover:opacity-90 transition-opacity">
+                        ابدأ مجاناً الآن
+                    </button>
+                    <button class="text-lg px-8 py-4 rounded-md border-2 border-yellow-500 bg-transparent text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
+                        اطلع على الوثائق
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 border-t border-gray-700 py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="col-span-1 md:col-span-2">
+                        <div class="flex items-center space-x-3 rtl:space-x-reverse mb-4">
+                            <svg class="h-8 w-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8V4H8M20 14h2M2 14h2M15 13v2M9 13v2" />
+                                <rect width="16" height="12" x="4" y="8" rx="2" />
+                            </svg>
+                            <span class="text-xl font-bold text-white">DiscordBot Pro</span>
+                        </div>
+                        <p class="text-gray-400 mb-4 max-w-md">
+                            البوت الأكثر تقدماً وموثوقية لخوادم ديسكورد. نحن نقدم أفضل تجربة للمستخدمين والمديرين.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-white font-semibold mb-4">روابط سريعة</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">الدعم الفني</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">الوثائق</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">خادم ديسكورد</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-white font-semibold mb-4">قانوني</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">سياسة الخصوصية</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">شروط الاستخدام</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">اتصل بنا</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                    <p class="text-gray-400">
+                        © 2024 DiscordBot Pro. جميع الحقوق محفوظة.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stats on scroll
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-pulse');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.stats-counter').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
