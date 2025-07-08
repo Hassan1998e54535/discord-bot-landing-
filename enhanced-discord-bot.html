@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiscordBot Pro - أقوى بوت ديسكورد</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
+        
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .yellow-gradient {
+            background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+        }
+        
+        .purple-gradient {
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+        
+        .hero-pattern {
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(251, 191, 36, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .dropdown-enter {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-enter-active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .modal-overlay {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white overflow-x-hidden">
+    <!-- شريط التنقل -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- الشعار -->
+                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                    <div class="w-10 h-10 yellow-gradient rounded-xl flex items-center justify-center">
+                        <i class="fas fa-robot text-black text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">
+                        DiscordBot Pro
+                    </span>
+                </div>
+
+                <!-- اختيار اللغة -->
+                <div class="relative">
+                    <button id="languageBtn" class="flex items-center space-x-2 rtl:space-x-reverse px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                        <i class="fas fa-globe text-yellow-500"></i>
+                        <span id="currentLang">العربية</span>
+                        <i class="fas fa-chevron-down text-sm"></i>
+                    </button>
+                    <div id="languageDropdown" class="absolute right-0 mt-2 w-40 glass-effect rounded-lg shadow-xl hidden">
+                        <a href="#" onclick="changeLanguage('ar')" class="block px-4 py-2 hover:bg-white/10 rounded-t-lg">
+                            <i class="fas fa-flag ml-2"></i>العربية
+                        </a>
+                        <a href="#" onclick="changeLanguage('en')" class="block px-4 py-2 hover:bg-white/10 rounded-b-lg">
+                            <i class="fas fa-flag ml-2"></i>English
+                        </a>
+                    </div>
+                </div>
+
+                <!-- قائمة المستخدم (تظهر بعد تسجيل الدخول) -->
+                <div id="userMenu" class="relative hidden">
+                    <button id="userAvatar" class="w-10 h-10 rounded-full overflow-hidden border-2 border-yellow-500">
+                        <img src="https://via.placeholder.com/40x40/6366F1/FFFFFF?text=U" alt="User" class="w-full h-full object-cover">
+                    </button>
+                    <div id="userDropdown" class="absolute left-0 mt-2 w-56 glass-effect rounded-xl shadow-xl hidden">
+                        <div class="p-4 border-b border-white/10">
+                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                                <img src="https://via.placeholder.com/40x40/6366F1/FFFFFF?text=U" alt="User" class="w-10 h-10 rounded-full">
+                                <div>
+                                    <div class="font-semibold" data-translate="username">المستخدم</div>
+                                    <div class="text-sm text-gray-400">#1234</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse px-3 py-2 hover:bg-white/10 rounded-lg">
+                                <i class="fas fa-tachometer-alt text-yellow-500"></i>
+                                <span data-translate="dashboard">لوحة التحكم</span>
+                            </a>
+                            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse px-3 py-2 hover:bg-white/10 rounded-lg">
+                                <i class="fas fa-user-edit text-blue-500"></i>
+                                <span data-translate="profile">تغيير الملف الشخصي</span>
+                            </a>
+                            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse px-3 py-2 hover:bg-white/10 rounded-lg">
+                                <i class="fas fa-crown text-purple-500"></i>
+                                <span data-translate="premium">صفحة البريميوم</span>
+                            </a>
+                            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse px-3 py-2 hover:bg-white/10 rounded-lg">
+                                <i class="fas fa-robot text-green-500"></i>
+                                <span data-translate="bot_status">حالة البوت</span>
+                            </a>
+                            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse px-3 py-2 hover:bg-white/10 rounded-lg">
+                                <i class="fas fa-cog text-gray-500"></i>
+                                <span data-translate="settings">الإعدادات</span>
+                            </a>
+                            <hr class="border-white/10 my-2">
+                            <a href="#" onclick="logout()" class="flex items-center space-x-3 rtl:space-x-reverse px-3 py-2 hover:bg-red-500/20 rounded-lg text-red-400">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span data-translate="logout">تسجيل الخروج</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- القسم الرئيسي -->
+    <section class="hero-pattern min-h-screen flex items-center justify-center pt-16">
+        <div class="text-center px-4 max-w-6xl mx-auto">
+            <!-- شارة التميز -->
+            <div class="inline-flex items-center px-6 py-3 rounded-full glass-effect mb-8 float-animation">
+                <i class="fas fa-star text-yellow-500 ml-2"></i>
+                <span class="text-yellow-400 font-medium" data-translate="badge_text">البوت الأكثر تقدماً في العالم العربي</span>
+            </div>
+            
+            <!-- العنوان الرئيسي -->
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight">
+                <span data-translate="main_title1">بوت ديسكورد</span><br>
+                <span class="bg-gradient-to-r from-yellow-400 via-purple-500 to-pink-500 bg-clip-text text-transparent" 
+                      data-translate="main_title2">المتقدم</span>
+            </h1>
+            
+            <!-- الوصف -->
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed" 
+               data-translate="description">
+                اجعل خادمك مميزاً مع أقوى بوت ديسكورد يوفر الحماية المتقدمة، الترفيه اللامحدود، والإدارة الذكية مع أدوات لا مثيل لها
+            </p>
+            
+            <!-- الأزرار الرئيسية -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+                <button id="loginBtn" class="group relative px-8 py-4 purple-gradient rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105 glow-effect">
+                    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <i class="fas fa-sign-in-alt group-hover:rotate-12 transition-transform"></i>
+                        <span data-translate="login_btn">تسجيل الدخول</span>
+                    </div>
+                    <div class="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </button>
+                
+                <button class="group relative px-8 py-4 yellow-gradient text-black rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105">
+                    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <i class="fas fa-robot group-hover:bounce"></i>
+                        <span data-translate="add_bot_btn">إضافة البوت</span>
+                    </div>
+                    <div class="absolute inset-0 rounded-2xl bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </button>
+            </div>
+
+            <!-- الإحصائيات -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="glass-effect rounded-2xl p-6 card-hover">
+                    <div class="text-4xl md:text-5xl font-black text-yellow-500 mb-2">125,420+</div>
+                    <div class="text-gray-300 font-medium" data-translate="stat1">خادم نشط</div>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 card-hover">
+                    <div class="text-4xl md:text-5xl font-black text-purple-500 mb-2">8,547,293+</div>
+                    <div class="text-gray-300 font-medium" data-translate="stat2">مستخدم سعيد</div>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 card-hover">
+                    <div class="text-4xl md:text-5xl font-black text-pink-500 mb-2">15,892,847+</div>
+                    <div class="text-gray-300 font-medium" data-translate="stat3">أمر منفذ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الميزات -->
+    <section class="py-20 px-4 bg-gradient-to-b from-slate-900 to-slate-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-6xl font-black mb-6" data-translate="features_title">
+                    ميزات استثنائية
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto" data-translate="features_desc">
+                    اكتشف مجموعة لا مثيل لها من الأدوات والميزات المتطورة التي تجعل خادمك الأفضل على الإطلاق
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- ميزة 1 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-yellow-400 transition-colors" data-translate="feature1_title">
+                        حماية متقدمة
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed" data-translate="feature1_desc">
+                        نظام حماية شامل بذكاء اصطناعي ضد السبام والمحتوى المؤذي مع حماية استباقية
+                    </p>
+                </div>
+
+                <!-- ميزة 2 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-music text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-yellow-400 transition-colors" data-translate="feature2_title">
+                        مشغل موسيقى فائق
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed" data-translate="feature2_desc">
+                        استمتع بموسيقى عالية الجودة من جميع المنصات مع إعدادات صوتية متقدمة
+                    </p>
+                </div>
+
+                <!-- ميزة 3 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-gamepad text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-yellow-400 transition-colors" data-translate="feature3_title">
+                        ألعاب تفاعلية
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed" data-translate="feature3_desc">
+                        مجموعة ضخمة من الألعاب والمسابقات التفاعلية لإضافة المرح لخادمك
+                    </p>
+                </div>
+
+                <!-- ميزة 4 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-cogs text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-yellow-400 transition-colors" data-translate="feature4_title">
+                        تخصيص لا محدود
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed" data-translate="feature4_desc">
+                        إعدادات مرنة وتخصيص كامل لكل وظيفة حسب احتياجات خادمك الفريدة
+                    </p>
+                </div>
+
+                <!-- ميزة 5 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bolt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-yellow-400 transition-colors" data-translate="feature5_title">
+                        أداء خارق
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed" data-translate="feature5_desc">
+                        استجابة فورية وأداء موثوق 99.9% على مدار الساعة مع خوادم عالمية
+                    </p>
+                </div>
+
+                <!-- ميزة 6 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover group">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-yellow-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-crown text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-yellow-400 transition-colors" data-translate="feature6_title">
+                        VIP حصري
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed" data-translate="feature6_desc">
+                        ميزات حصرية ودعم أولوية مع فريق خبراء متاح 24/7 للمستخدمين المميزين
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- نافذة تسجيل الدخول -->
+    <div id="loginModal" class="fixed inset-0 z-[100] hidden modal-overlay flex items-center justify-center p-4">
+        <div class="glass-effect rounded-3xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 yellow-gradient rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user text-black text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-2" data-translate="login_title">تسجيل الدخول</h2>
+                <p class="text-gray-400" data-translate="login_subtitle">ادخل إلى حسابك للوصول للميزات المتقدمة</p>
+            </div>
+            
+            <form class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2" data-translate="email_label">البريد الإلكتروني</label>
+                    <input type="email" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 focus:border-yellow-500 focus:outline-none transition-colors" placeholder="example@email.com">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2" data-translate="password_label">كلمة المرور</label>
+                    <input type="password" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 focus:border-yellow-500 focus:outline-none transition-colors" placeholder="••••••••">
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded border-white/20 bg-white/10 text-yellow-500 focus:ring-yellow-500">
+                        <span class="mr-2 text-sm" data-translate="remember_me">تذكرني</span>
+                    </label>
+                    <a href="#" class="text-sm text-yellow-400 hover:text-yellow-300" data-translate="forgot_password">نسيت كلمة المرور؟</a>
+                </div>
+                
+                <button type="submit" class="w-full yellow-gradient text-black font-bold py-3 rounded-xl hover:opacity-90 transition-opacity" onclick="handleLogin(event)">
+                    <span data-translate="login_submit">دخول</span>
+                </button>
+                
+                <div class="text-center">
+                    <span class="text-gray-400" data-translate="no_account">ليس لديك حساب؟</span>
+                    <a href="#" class="text-yellow-400 hover:text-yellow-300 font-medium" data-translate="signup_link">إنشاء حساب</a>
+                </div>
+            </form>
+            
+            <button onclick="closeLoginModal()" class="absolute top-4 left-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
+                <i class="fas fa-times text-gray-400"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // نظام الترجمة
+        const translations = {
+            ar: {
+                badge_text: "البوت الأكثر تقدماً في العالم العربي",
+                main_title1: "بوت ديسكورد",
+                main_title2: "المتقدم",
+                description: "اجعل خادمك مميزاً مع أقوى بوت ديسكورد يوفر الحماية المتقدمة، الترفيه اللامحدود، والإدارة الذكية مع أدوات لا مثيل لها",
+                login_btn: "تسجيل الدخول",
+                add_bot_btn: "إضافة البوت",
+                stat1: "خادم نشط",
+                stat2: "مستخدم سعيد",
+                stat3: "أمر منفذ",
+                features_title: "ميزات استثنائية",
+                features_desc: "اكتشف مجموعة لا مثيل لها من الأدوات والميزات المتطورة التي تجعل خادمك الأفضل على الإطلاق",
+                feature1_title: "حماية متقدمة",
+                feature1_desc: "نظام حماية شامل بذكاء اصطناعي ضد السبام والمحتوى المؤذي مع حماية استباقية",
+                feature2_title: "مشغل موسيقى فائق",
+                feature2_desc: "استمتع بموسيقى عالية الجودة من جميع المنصات مع إعدادات صوتية متقدمة",
+                feature3_title: "ألعاب تفاعلية",
+                feature3_desc: "مجموعة ضخمة من الألعاب والمسابقات التفاعلية لإضافة المرح لخادمك",
+                feature4_title: "تخصيص لا محدود",
+                feature4_desc: "إعدادات مرنة وتخصيص كامل لكل وظيفة حسب احتياجات خادمك الفريدة",
+                feature5_title: "أداء خارق",
+                feature5_desc: "استجابة فورية وأداء موثوق 99.9% على مدار الساعة مع خوادم عالمية",
+                feature6_title: "VIP حصري",
+                feature6_desc: "ميزات حصرية ودعم أولوية مع فريق خبراء متاح 24/7 للمستخدمين المميزين",
+                username: "المستخدم",
+                dashboard: "لوحة التحكم",
+                profile: "تغيير الملف الشخصي",
+                premium: "صفحة البريميوم",
+                bot_status: "حالة البوت",
+                settings: "الإعدادات",
+                logout: "تسجيل الخروج",
+                login_title: "تسجيل الدخول",
+                login_subtitle: "ادخل إلى حسابك للوصول للميزات المتقدمة",
+                email_label: "البريد الإلكتروني",
+                password_label: "كلمة المرور",
+                remember_me: "تذكرني",
+                forgot_password: "نسيت كلمة المرور؟",
+                login_submit: "دخول",
+                no_account: "ليس لديك حساب؟",
+                signup_link: "إنشاء حساب"
+            },
+            en: {
+                badge_text: "The Most Advanced Bot in the Arab World",
+                main_title1: "Discord Bot",
+                main_title2: "Advanced",
+                description: "Make your server special with the most powerful Discord bot that provides advanced protection, unlimited entertainment, and smart management with unparalleled tools",
+                login_btn: "Sign In",
+                add_bot_btn: "Add Bot",
+                stat1: "Active Servers",
+                stat2: "Happy Users",
+                stat3: "Commands Executed",
+                features_title: "Exceptional Features",
+                features_desc: "Discover an unparalleled set of advanced tools and features that make your server the absolute best",
+                feature1_title: "Advanced Protection",
+                feature1_desc: "Comprehensive AI-powered protection system against spam and harmful content with proactive security",
+                feature2_title: "Superior Music Player",
+                feature2_desc: "Enjoy high-quality music from all platforms with advanced audio settings",
+                feature3_title: "Interactive Games",
+                feature3_desc: "Huge collection of interactive games and contests to add fun to your server",
+                feature4_title: "Unlimited Customization",
+                feature4_desc: "Flexible settings and complete customization for every function according to your server's unique needs",
+                feature5_title: "Super Performance",
+                feature5_desc: "Instant response and 99.9% reliable performance 24/7 with global servers",
+                feature6_title: "Exclusive VIP",
+                feature6_desc: "Exclusive features and priority support with expert team available 24/7 for premium users",
+                username: "User",
+                dashboard: "Dashboard",
+                profile: "Edit Profile",
+                premium: "Premium Page",
+                bot_status: "Bot Status",
+                settings: "Settings",
+                logout: "Sign Out",
+                login_title: "Sign In",
+                login_subtitle: "Enter your account to access advanced features",
+                email_label: "Email",
+                password_label: "Password",
+                remember_me: "Remember me",
+                forgot_password: "Forgot password?",
+                login_submit: "Sign In",
+                no_account: "Don't have an account?",
+                signup_link: "Create Account"
+            }
+        };
+
+        let currentLang = 'ar';
+
+        // تغيير اللغة
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.querySelector('#currentLang').textContent = lang === 'ar' ? 'العربية' : 'English';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            // تطبيق الترجمات
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            document.getElementById('languageDropdown').classList.add('hidden');
+        }
+
+        // إظهار/إخفاء قائمة اللغة
+        document.getElementById('languageBtn').addEventListener('click', function() {
+            document.getElementById('languageDropdown').classList.toggle('hidden');
+        });
+
+        // إظهار نافذة تسجيل الدخول
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            document.getElementById('loginModal').classList.remove('hidden');
+        });
+
+        // إغلاق نافذة تسجيل الدخول
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+        }
+
+        // تسجيل الدخول
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            // إغلاق نافذة تسجيل الدخول
+            closeLoginModal();
+            
+            // إظهار قائمة المستخدم
+            document.getElementById('userMenu').classList.remove('hidden');
+            
+            // إخفاء زر تسجيل الدخول
+            document.getElementById('loginBtn').style.display = 'none';
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            document.getElementById('userMenu').classList.add('hidden');
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('userDropdown').classList.add('hidden');
+        }
+
+        // إظهار/إخفاء قائمة المستخدم
+        document.addEventListener('click', function(event) {
+            const userAvatar = document.getElementById('userAvatar');
+            const userDropdown = document.getElementById('userDropdown');
+            const languageBtn = document.getElementById('languageBtn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            
+            if (userAvatar && userAvatar.contains(event.target)) {
+                userDropdown.classList.toggle('hidden');
+            } else if (userDropdown && !userDropdown.contains(event.target)) {
+                userDropdown.classList.add('hidden');
+            }
+            
+            if (languageBtn && !languageBtn.contains(event.target)) {
+                languageDropdown.classList.add('hidden');
+            }
+        });
+
+        // إغلاق النافذة عند الضغط على الخلفية
+        document.getElementById('loginModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeLoginModal();
+            }
+        });
+
+        // تأثيرات إضافية للزر
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
